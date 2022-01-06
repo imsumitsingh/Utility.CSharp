@@ -9,9 +9,10 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>utility ,sk,sks,sumit,kumar,By_Sumit,singh,C#,library,utility sumit,sumit utility</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
     <Description>This utility can boost your coding skill, make your application readable and maintainable .
-It contains some string,date extentation methods as well as some useful methods to convert one form data to another.</Description>
+It contains some string,date extension methods as well as some useful methods to convert one form data to another.</Description>
+    <PackageReleaseNotes>ToWords,ToJSON,ToDataTable,ToList,FindAge,FindDistance,GetRandomNumber,GetRandomString,GetFinancialYearList,Trrim(),Shuffle,Left,Right,isMobile,IsEmail,Encrypt,Decrypt,ToUpper,ToLower,EMonth</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

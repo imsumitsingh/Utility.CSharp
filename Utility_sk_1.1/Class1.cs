@@ -409,18 +409,28 @@ namespace CSharpUtilityBySumit
      
 
         }
-        public static SelectList MonthList()
+        public static List<T> ToList<T>(this string str)
         {
-            var item = new List<SelectListItem>();
-            
-            foreach (string value in Enum.GetValues(typeof(Month)))
-            {
-                item.Add(new SelectListItem() { Text = Enum.GetName(typeof(Month),value), Value = value });
-            }
 
-            return new SelectList(item, "Value", "Text");
+            List<T> list = new List<T>();
+            var opt = new JsonSerializerOptions() { WriteIndented = true };
+            list = JsonSerializer.Deserialize<List<T>>(str, opt);
+            return list;
+
 
         }
+        public static List<Property> Properties<T>(this T type)
+        {
+            List<Property> list = new List<Property>();
+            var prop = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo p in prop)
+            {
+                list.Add(new Property() { Name = p.Name, Type = p.PropertyType.Name });
+            }
+
+            return list;
+        }
+       
 
     }
                    
