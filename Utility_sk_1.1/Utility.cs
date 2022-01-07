@@ -408,12 +408,24 @@ namespace CSharp.Utility
      
 
         }
-        public static List<T> ToList<T>(this string str)
+        public static string ToJSON(this DataTable dataTable)
+        {
+            string JSONString = "";
+            JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(dataTable);
+            return JSONString;
+        }
+        public static DataTable ToJSON(this string JSONString)
+        {
+           DataTable dt = null;
+            dt =(DataTable) Newtonsoft.Json.JsonConvert.DeserializeObject(JSONString,typeof(DataTable));
+            return dt;
+        }
+        public static List<T> ToList<T>(this string JSONString)
         {
 
             List<T> list = new List<T>();
             var opt = new JsonSerializerOptions() { WriteIndented = true };
-            list = JsonSerializer.Deserialize<List<T>>(str, opt);
+            list = JsonSerializer.Deserialize<List<T>>(JSONString, opt);
             return list;
 
 
