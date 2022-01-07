@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Utility_sk_1._1
 {
-    class Age
+    public class Age
     {
 
         public int Years { get; set; }

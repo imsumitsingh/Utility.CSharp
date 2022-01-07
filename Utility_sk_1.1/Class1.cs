@@ -10,10 +10,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Web.Mvc;
 using Utility_sk_1._1;
 
-namespace CSharpUtilityBySumit
+namespace CSharp.Utility
 {
     public static class Utility
     {
@@ -430,14 +429,155 @@ namespace CSharpUtilityBySumit
 
             return list;
         }
+
+
+        public static DataTable CreateDataTable(string Name="Default",params string[] ColumnNames)
+        {
+            DataTable dt = new DataTable(Name);
+            foreach (var str in ColumnNames)
+            {
+                dt.Columns.Add(str, typeof(object));
+            }
+            return dt;
+        }
+        public static DataTable Sort(this DataTable dt,SortType type, params string[] ColumnName)
+        {
+            DataView dv = new DataView(dt);
+            dv.Sort = String.Join(",",ColumnName) + " " + type;
+            return dv.ToTable();
+        }
+        public static DataTable Filter(this DataTable dt, string Filter)
+        {
+            DataView dv = new DataView(dt);
+            dv.RowFilter = Filter;
+            return dv.ToTable();
+        }
+        public static object Sum(this DataTable dt, string ColumnName,string Filter=null)
+        {
+            string query = Aggregate.SUM + " (" + ColumnName + ")";
+           object obj= dt.Compute(query, Filter);
+            return obj;
+        }
+        public static object Min(this DataTable dt, string ColumnName, string Filter = null)
+        {
+            string query = Aggregate.MIN + " (" + ColumnName + ")";
+            object obj = dt.Compute(query, Filter);
+            return obj;
+        }
+        public static object Max(this DataTable dt, string ColumnName, string Filter = null)
+        {
+            string query = Aggregate.MAX + " (" + ColumnName + ")";
+            object obj = dt.Compute(query, Filter);
+            return obj;
+        }
+        public static object Count(this DataTable dt, string ColumnName, string Filter = null)
+        {
+            string query = Aggregate.COUNT + " (" + ColumnName + ")";
+            object obj = dt.Compute(query, Filter);
+            return obj;
+        }
        
+        public static object Avg(this DataTable dt, string ColumnName, string Filter = null)
+        {
+            string query = Aggregate.AVG + " (" + ColumnName + ")";
+            object obj = dt.Compute(query, Filter);
+            return obj;
+        }
+        public static DataTable Remove(this DataTable dt, string ColumnName, object ColumnValue)
+        {
+            foreach (DataRow row in dt.Rows)
+            {
+                if (row[ColumnName]==ColumnValue)
+                {
+                    dt.Rows.Remove(row);
+                }
+            }
+            return dt;
+        }
+        public static DataTable Remove(this DataTable dt, int ColumnIndex, object ColumnValue)
+        {
+            foreach (DataRow row in dt.Rows)
+            {
+                if (row[ColumnIndex] == ColumnValue)
+                {
+                    dt.Rows.Remove(row);
+                }
+            }
+            return dt;
+        }
+        public static object GetCellText(this DataTable dt, int RowIndex, int ColumnIndex)
+        {
+           
+            return dt.Rows[RowIndex][ColumnIndex];
+        }
+        public static void SetCellText(this DataTable dt, int RowIndex, int ColumnIndex,object CellText)
+        {
+           dt.Rows[RowIndex][ColumnIndex]=CellText;
+        }
 
+        public static DataSet Calender(int year)
+        {
+            DataSet ds = new DataSet();
+
+            for (int i = 1; i <= 12; i++)
+            {
+                var MonthCalender = new DataTable(new DateTime(year, i, 01).ToString("MMMM-yy"));
+                var lastdate = new DateTime(year, i, 01).EMonth().Day;
+                MonthCalender.Columns.Add("Date");
+                MonthCalender.Columns.Add("WeekDay");
+
+
+                for (int j = 1; j <= lastdate; j++)
+                {
+                    MonthCalender.Rows.Add(new DateTime(year, i, j), new DateTime(year, i, j).ToString("dddd"));
+                }
+                ds.Merge(MonthCalender);
+            }
+
+            return ds;
+        }
+        public static DataTable Calender(int year, int month)
+        {
+
+            var MonthCalender = new DataTable(new DateTime(year, month, 01).ToString("MMMM-yy"));
+            var lastdate = new DateTime(year, month, 01).EMonth().Day;
+            MonthCalender.Columns.Add("Date");
+            MonthCalender.Columns.Add("WeekDay");
+
+
+            for (int j = 1; j <= lastdate; j++)
+            {
+                MonthCalender.Rows.Add(new DateTime(year, month, j).ToString("yyyy-MM-dd"), new DateTime(year, month, j).ToString("dddd"));
+            }
+
+
+
+            return MonthCalender;
+        }
+        public static DateTime[] MonthDates(int year, int month)
+        {
+
+            DateTime[] dt = new DateTime[new DateTime(year, month, 01).EMonth().Day + 1];
+            var lastdate = new DateTime(year, month, 01).EMonth().Day;
+            for (int j = 1; j <= lastdate; j++)
+            {
+                dt[j] = new DateTime(year, month, j);
+            }
+            return dt;
+        }
     }
-                   
-                 
 
-   
 
+
+
+    public enum SortType
+    {
+        ASC,DESC
+    }
+    public enum Aggregate
+    {
+        MIN,MAX,AVG,SUM,COUNT
+    }
 
     public enum Month
     {
