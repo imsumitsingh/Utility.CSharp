@@ -2,17 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>Utility_sk_1._1</RootNamespace>
+    <RootNamespace>Utility.CSharp</RootNamespace>
     <PackageId>Utility.CSharp</PackageId>
     <Authors>Sumit</Authors>
     <Company>sumit55255@gmail.com</Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>Csharp,sumit,utility</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1</Version>
-    <Description>ToWords,ToJSON,ToDataTable,ToList,FindAge,FindDistance,GetRandomNumber,GetRandomString,GetFinancialYearList,Trim(),Shuffle,Left,Right,isMobile,IsEmail,Encrypt,Decrypt,ToUpper,ToLower,EMonth,ADO.NET fuctions</Description>
+    <Version>1.0.2</Version>
+    <Description>ToWords,ToJSON,ToDataTable,ToList,FindAge,FindDistance,GetRandomNumber,GetRandomString,GetFinancialYearList,Trim(),Shuffle,Left,Right,isMobile,IsEmail,Encrypt,Decrypt,ToUpper,ToLower,EMonth,ADO.NET Functions and Many More</Description>
     <PackageReleaseNotes></PackageReleaseNotes>
     <Product>Utility.CSharp</Product>
+    <ApplicationIcon></ApplicationIcon>
+    <PackageIcon>utility.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +23,13 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
     <PackageReference Include="System.Text.Json" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\dotnetresourceaonla\Downloads\utility.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

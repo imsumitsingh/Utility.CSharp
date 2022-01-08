@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Utility.CSharp
+namespace CSharp
 {
   public  class Property
     {

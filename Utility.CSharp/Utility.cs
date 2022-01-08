@@ -10,9 +10,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Utility.CSharp;
+using CSharp;
 
-namespace Utility.CSharp
+namespace CSharp
 {
     public static class Utility
     {

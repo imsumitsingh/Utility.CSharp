@@ -5,7 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace Utility.CSharp
+namespace CSharp
 {
   public static class Ado
     {
