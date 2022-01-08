@@ -16,9 +16,7 @@ namespace Utility.CSharp
             _connectionString = ConfigurationManager.ConnectionStrings[ConnectionStringName].ConnectionString;
             con = new SqlConnection(_connectionString);
         }
-       static  DataSet ds1;
-       static SqlDataAdapter da1;
-       static SqlCommand cmd1;
+       
         public static string SetData(string query)
         {
             SqlCommand com = new SqlCommand(query, con);
@@ -348,6 +346,41 @@ namespace Utility.CSharp
                 con.Close();
             }
             return dt;
+
+        }
+        public static object GetScaler(string procedure, params SqlParameter[] parameters)
+        {
+            
+           
+            SqlCommand scmd = new SqlCommand();
+            object obj=null;
+            try
+            {
+                con.Open();
+
+                SqlDataAdapter sda = new SqlDataAdapter();
+                scmd.CommandType = CommandType.StoredProcedure;
+                scmd.CommandText = procedure;
+                scmd.Connection = con;
+                if (parameters != null && parameters.Length > 0)
+                {
+                    for (int i = 0; i < parameters.Length; i++)
+                    {
+                        scmd.Parameters.Add(parameters[i]);
+                    }
+                }
+                obj = scmd.ExecuteScalar();
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                scmd.Parameters.Clear();
+                con.Close();
+            }
+            return obj;
 
         }
 
