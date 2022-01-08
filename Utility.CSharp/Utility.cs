@@ -12,6 +12,8 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using CSharp;
 
+
+
 namespace CSharp
 {
     public static class Utility
@@ -550,6 +552,11 @@ namespace CSharp
         public static object GetCellText(this DataTable dt, int RowIndex, int ColumnIndex)
         {
            return dt.Rows[RowIndex][ColumnIndex];
+        }
+        public static DataTable Clip(this DataTable dt, int PageNo, int PageLength)
+        {
+            int startRecord = (PageLength * PageNo) - PageLength;
+            return dt.AsEnumerable().Skip(startRecord).Take(PageLength).CopyToDataTable();
         }
         public static void SetCellText(this DataTable dt, int RowIndex, int ColumnIndex,object CellText)
         {

@@ -315,7 +315,7 @@ namespace CSharp
         }
         public static DataTable GetDataTable(string procedure,int PageNo,int PageLength, params SqlParameter[] parameters)
         {
-            int startRecord = (PageLength * PageNo + 1) - PageLength;
+            
             DataTable dt = new DataTable();
             SqlCommand scmd = new SqlCommand();
             try
@@ -334,7 +334,7 @@ namespace CSharp
                     }
                 }
                 sda.SelectCommand = scmd;
-                sda.Fill(startRecord,PageLength,dt);
+                sda.Fill(dt);
             }
             catch (Exception)
             {

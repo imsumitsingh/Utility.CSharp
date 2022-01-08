@@ -9,7 +9,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>Csharp,sumit,utility</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Description>ToWords,ToJSON,ToDataTable,ToList,FindAge,FindDistance,GetRandomNumber,GetRandomString,GetFinancialYearList,Trim(),Shuffle,Left,Right,isMobile,IsEmail,Encrypt,Decrypt,ToUpper,ToLower,EMonth,ADO.NET Functions and Many More</Description>
     <PackageReleaseNotes></PackageReleaseNotes>
     <Product>Utility.CSharp</Product>
@@ -21,6 +21,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
     <PackageReference Include="System.Text.Json" Version="6.0.1" />
   </ItemGroup>
