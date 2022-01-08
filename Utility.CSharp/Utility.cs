@@ -10,9 +10,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Utility_sk_1._1;
+using Utility.CSharp;
 
-namespace CSharp.Utility
+namespace Utility.CSharp
 {
     public static class Utility
     {
@@ -408,24 +408,54 @@ namespace CSharp.Utility
      
 
         }
+        public static string ToJSON<T>(this List<T> obj)
+        {
+
+
+            var opt = new JsonSerializerOptions() { WriteIndented = true };
+            string json = JsonSerializer.Serialize<List<T>>(obj, opt);
+            return json;
+
+
+        }
         public static string ToJSON(this DataTable dataTable)
         {
             string JSONString = "";
             JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(dataTable);
             return JSONString;
         }
-        public static DataTable ToJSON(this string JSONString)
+        public static DataTable ToDataTable(this string JSONString)
         {
            DataTable dt = null;
             dt =(DataTable) Newtonsoft.Json.JsonConvert.DeserializeObject(JSONString,typeof(DataTable));
             return dt;
         }
-        public static List<T> ToList<T>(this string JSONString)
+        public static List<T> ToLists<T>(this string JSONString)
         {
 
             List<T> list = new List<T>();
             var opt = new JsonSerializerOptions() { WriteIndented = true };
             list = JsonSerializer.Deserialize<List<T>>(JSONString, opt);
+            return list;
+
+
+        }
+        public static T ToList<T>(this string JSONString)
+        {
+
+            T list = Activator.CreateInstance<T>();
+            var opt = new JsonSerializerOptions() { WriteIndented = true };
+            list = JsonSerializer.Deserialize<T>(JSONString, opt);
+            return list;
+
+
+        }
+        public static dynamic ToAnnonimousList<dynamic>(this string JSONString)
+        {
+
+            dynamic list = Activator.CreateInstance<dynamic>();
+            var opt = new JsonSerializerOptions() { WriteIndented = true };
+            list = JsonSerializer.Deserialize<dynamic>(JSONString, opt);
             return list;
 
 
@@ -519,15 +549,14 @@ namespace CSharp.Utility
         }
         public static object GetCellText(this DataTable dt, int RowIndex, int ColumnIndex)
         {
-           
-            return dt.Rows[RowIndex][ColumnIndex];
+           return dt.Rows[RowIndex][ColumnIndex];
         }
         public static void SetCellText(this DataTable dt, int RowIndex, int ColumnIndex,object CellText)
         {
            dt.Rows[RowIndex][ColumnIndex]=CellText;
         }
 
-        public static DataSet Calender(int year)
+        public static DataSet CalenderDataSet(int year)
         {
             DataSet ds = new DataSet();
 
@@ -536,7 +565,7 @@ namespace CSharp.Utility
                 var MonthCalender = new DataTable(new DateTime(year, i, 01).ToString("MMMM-yy"));
                 var lastdate = new DateTime(year, i, 01).EMonth().Day;
                 MonthCalender.Columns.Add("Date");
-                MonthCalender.Columns.Add("WeekDay");
+                MonthCalender.Columns.Add("DayName");
 
 
                 for (int j = 1; j <= lastdate; j++)
@@ -548,24 +577,37 @@ namespace CSharp.Utility
 
             return ds;
         }
-        public static DataTable Calender(int year, int month)
+        public static List<MyCalender> CalenderList(int year)
+        {
+            List<MyCalender> myCalenders = new List<MyCalender>();
+
+            for (int i = 1; i <= 12; i++)
+            {
+                
+                var lastdate = new DateTime(year, i, 01).EMonth().Day;
+                for (int j = 1; j <= lastdate; j++)
+                {
+                    myCalenders.Add(new MyCalender() { Date = new DateTime(year, i, j), DayName = new DateTime(year, i, j).ToString("dddd"), Month = i });
+                }
+               
+            }
+
+            return myCalenders;
+        }
+        public static DataTable CalenderDataTable(int year, int month)
         {
 
             var MonthCalender = new DataTable(new DateTime(year, month, 01).ToString("MMMM-yy"));
             var lastdate = new DateTime(year, month, 01).EMonth().Day;
             MonthCalender.Columns.Add("Date");
-            MonthCalender.Columns.Add("WeekDay");
-
-
+            MonthCalender.Columns.Add("DayName");
             for (int j = 1; j <= lastdate; j++)
             {
                 MonthCalender.Rows.Add(new DateTime(year, month, j).ToString("yyyy-MM-dd"), new DateTime(year, month, j).ToString("dddd"));
             }
-
-
-
             return MonthCalender;
         }
+       
         public static DateTime[] MonthDates(int year, int month)
         {
 

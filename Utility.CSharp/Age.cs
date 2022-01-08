@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Utility_sk_1._1
+namespace Utility.CSharp
 {
     public class Age
     {

@@ -5,7 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace CSharp.Utility
+namespace Utility.CSharp
 {
   public static class Ado
     {
@@ -19,16 +19,6 @@ namespace CSharp.Utility
        static  DataSet ds1;
        static SqlDataAdapter da1;
        static SqlCommand cmd1;
-
-
-        
-       
-
-        
-
-
-       
-       
         public static string SetData(string query)
         {
             SqlCommand com = new SqlCommand(query, con);
@@ -254,14 +244,6 @@ namespace CSharp.Utility
             }
             return Value;
         }
-      
-
-        //--------------------My Functions----------------------------//
-       
-       
-      
-      
-        
         public static bool IsExists(string TableName, string WhereColumn, string WhereValue)
         {
             bool f = false;
@@ -284,13 +266,6 @@ namespace CSharp.Utility
             }
             return f;
         }
-
-
-       
-      
-
-
-
         public static DataTable GetAllRecords(string tablename)
         {
            DataTable dt = Ado.GetData("select * from " + tablename);
@@ -306,11 +281,114 @@ namespace CSharp.Utility
             return false;
         }
 
+        public static DataTable GetDataTable(string procedure, params SqlParameter[] parameters)
+        {
+            DataTable dt = new DataTable();
+            SqlCommand scmd = new SqlCommand();
+            try
+            {
+                con.Open();
+               
+                SqlDataAdapter sda = new SqlDataAdapter();
+                scmd.CommandType = CommandType.StoredProcedure;
+                scmd.CommandText = procedure;
+                scmd.Connection = con;
+                if (parameters != null && parameters.Length > 0)
+                {
+                    for (int i = 0; i < parameters.Length; i++)
+                    {
+                        scmd.Parameters.Add(parameters[i]);
+                    }
+                }
+                sda.SelectCommand = scmd;
+                sda.Fill(dt);
+            }
+            catch (Exception)
+            {
 
-        
+            }
+            finally
+            {
+                scmd.Parameters.Clear();
+                con.Close();
+            }
+            return dt;
+
+        }
+        public static DataTable GetDataTable(string procedure,int PageNo,int PageLength, params SqlParameter[] parameters)
+        {
+            int startRecord = (PageLength * PageNo + 1) - PageLength;
+            DataTable dt = new DataTable();
+            SqlCommand scmd = new SqlCommand();
+            try
+            {
+                con.Open();
+
+                SqlDataAdapter sda = new SqlDataAdapter();
+                scmd.CommandType = CommandType.StoredProcedure;
+                scmd.CommandText = procedure;
+                scmd.Connection = con;
+                if (parameters != null && parameters.Length > 0)
+                {
+                    for (int i = 0; i < parameters.Length; i++)
+                    {
+                        scmd.Parameters.Add(parameters[i]);
+                    }
+                }
+                sda.SelectCommand = scmd;
+                sda.Fill(startRecord,PageLength,dt);
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                scmd.Parameters.Clear();
+                con.Close();
+            }
+            return dt;
+
+        }
+
+        public static DataSet GetDataSet(string procedure, params SqlParameter[] parameters)
+        {
+            DataSet ds = new DataSet();
+            SqlCommand scmd = new SqlCommand();
+            try
+            {
+                con.Open();
+
+                SqlDataAdapter sda = new SqlDataAdapter();
+                scmd.CommandType = CommandType.StoredProcedure;
+                scmd.CommandText = procedure;
+                scmd.Connection = con;
+                if (parameters != null && parameters.Length > 0)
+                {
+                    for (int i = 0; i < parameters.Length; i++)
+                    {
+                        scmd.Parameters.Add(parameters[i]);
+                    }
+                }
+                sda.SelectCommand = scmd;
+                sda.Fill(ds);
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                scmd.Parameters.Clear();
+                con.Close();
+            }
+            return ds;
+
+        }
 
 
-     
+
+
 
     }
 }
