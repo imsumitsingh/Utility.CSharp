@@ -4,12 +4,12 @@ using System.Text;
 
 namespace CSharp
 {
-   public class MyCalender
+   public class Calender
     {
         public DateTime Date { get; set; }
         public string DayName { get; set; }
         public int Month { get; set; }
 
-        IEnumerable<MyCalender> myCalenders { get; set; }
+        IEnumerable<Calender> myCalenders { get; set; }
     }
 }

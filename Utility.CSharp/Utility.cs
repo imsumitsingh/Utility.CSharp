@@ -36,6 +36,11 @@ namespace CSharp
 
             return r.Next(min, max);
         }
+        public static int GetRandomNumber(int min,int max)
+        {
+            Random r = new Random();
+            return r.Next(min, max);
+        }
         private static Random rand = new Random();
 
         public static string Shuffle(this String str)
@@ -475,9 +480,9 @@ namespace CSharp
         }
 
 
-        public static DataTable CreateDataTable(string Name="Default",params string[] ColumnNames)
+        public static DataTable CreateDataTable(params string[] ColumnNames)
         {
-            DataTable dt = new DataTable(Name);
+            DataTable dt = new DataTable();
             foreach (var str in ColumnNames)
             {
                 dt.Columns.Add(str, typeof(object));
@@ -527,17 +532,7 @@ namespace CSharp
             object obj = dt.Compute(query, Filter);
             return obj;
         }
-        public static DataTable Remove(this DataTable dt, string ColumnName, object ColumnValue)
-        {
-            foreach (DataRow row in dt.Rows)
-            {
-                if (row[ColumnName]==ColumnValue)
-                {
-                    dt.Rows.Remove(row);
-                }
-            }
-            return dt;
-        }
+       
         public static DataTable Remove(this DataTable dt, int ColumnIndex, object ColumnValue)
         {
             foreach (DataRow row in dt.Rows)
@@ -549,11 +544,16 @@ namespace CSharp
             }
             return dt;
         }
+        public static DataTable Remove(this DataTable dt, int RowIndex)
+        {
+            dt.Rows.Remove(dt.Rows[RowIndex]);
+            return dt;
+        }
         public static object GetCellText(this DataTable dt, int RowIndex, int ColumnIndex)
         {
            return dt.Rows[RowIndex][ColumnIndex];
         }
-        public static DataTable Clip(this DataTable dt, int PageNo, int PageLength)
+        public static DataTable Fetch(this DataTable dt, int PageNo, int PageLength)
         {
             int startRecord = (PageLength * PageNo) - PageLength;
             return dt.AsEnumerable().Skip(startRecord).Take(PageLength).CopyToDataTable();
@@ -563,7 +563,7 @@ namespace CSharp
            dt.Rows[RowIndex][ColumnIndex]=CellText;
         }
 
-        public static DataSet CalenderDataSet(int year)
+        public static DataSet GetCalender(int year)
         {
             DataSet ds = new DataSet();
 
@@ -584,9 +584,9 @@ namespace CSharp
 
             return ds;
         }
-        public static List<MyCalender> CalenderList(int year)
+        public static List<Calender> GetCalenderOf(int year)
         {
-            List<MyCalender> myCalenders = new List<MyCalender>();
+            List<Calender> myCalenders = new List<Calender>();
 
             for (int i = 1; i <= 12; i++)
             {
@@ -594,14 +594,14 @@ namespace CSharp
                 var lastdate = new DateTime(year, i, 01).EMonth().Day;
                 for (int j = 1; j <= lastdate; j++)
                 {
-                    myCalenders.Add(new MyCalender() { Date = new DateTime(year, i, j), DayName = new DateTime(year, i, j).ToString("dddd"), Month = i });
+                    myCalenders.Add(new Calender() { Date = new DateTime(year, i, j), DayName = new DateTime(year, i, j).ToString("dddd"), Month = i });
                 }
                
             }
 
             return myCalenders;
         }
-        public static DataTable CalenderDataTable(int year, int month)
+        public static DataTable GetCalenderOf(int year, int month)
         {
 
             var MonthCalender = new DataTable(new DateTime(year, month, 01).ToString("MMMM-yy"));
@@ -615,7 +615,7 @@ namespace CSharp
             return MonthCalender;
         }
        
-        public static DateTime[] MonthDates(int year, int month)
+        public static DateTime[] GetDatesOfMonth(int year, int month)
         {
 
             DateTime[] dt = new DateTime[new DateTime(year, month, 01).EMonth().Day + 1];
